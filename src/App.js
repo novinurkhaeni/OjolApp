@@ -19,7 +19,6 @@ const App: () => Node = () => {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-  console.log(Router);
   return (
     <Router />
     // <SafeAreaView style={backgroundStyle}>
