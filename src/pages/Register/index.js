@@ -1,24 +1,64 @@
-import {StyleSheet, Text, View, SafeAreaView, ScrollView, Image} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, Text, View, SafeAreaView, ScrollView, Image, TouchableOpacity} from 'react-native';
 
 import {colors} from '../../utils';
-import {Input} from '../../components';
+import {Input, Button} from '../../components';
 import {IconBack, RegisterImage} from '../../assets';
 
-const Register = () => {
+const Register = ({navigation}) => {
+  const [form, setForm] = useState({
+    fullName: '',
+    email: '',
+    password: '',
+  });
+
+  useEffect(() => {
+    console.log('Hello');
+  }, []);
+
+  const onInputChange = (value, input) => {
+    setForm({
+      ...form,
+      [input]: value,
+    });
+  };
+
+  const sendData = () => {
+    console.log('send', form);
+  };
+
   return (
     <SafeAreaView style={styles.wrapper.page}>
-      <Image source={IconBack} style={styles.iconBack} />
-      <RegisterImage width={106} height={115} style={styles.illustration}/>
-      <Text style={styles.text.desc}>
-        Mohon mengisis beberapa data untuk proses daftar anda
-      </Text>
-      <View style={styles.space(64)} />
-      <Input placeholder="Nama Lengkap" />
-      <View style={styles.space(33)} />
-      <Input placeholder="Email" />
-      <View style={styles.space(33)} />
-      <Input placeholder="Password" />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image source={IconBack} style={styles.iconBack} />
+        </TouchableOpacity>
+        <RegisterImage width={106} height={115} style={styles.illustration}/>
+        <Text style={styles.text.desc}>
+          Mohon mengisis beberapa data untuk proses daftar anda
+        </Text>
+        <View style={styles.space(64)} />
+        <Input 
+          placeholder="Nama Lengkap" 
+          value={form.fullName} 
+          onChangeText={value => {
+            onInputChange(value, 'fullName')
+          }}
+        />
+        <View style={styles.space(33)} />
+        <Input 
+          placeholder="Email" 
+          value={form.email} 
+          onChangeText={value => onInputChange(value, 'email')} />
+        <View style={styles.space(33)} />
+        <Input 
+          placeholder="Password" 
+          value={form.password} 
+          onChangeText={value => onInputChange(value, 'password')} 
+          secureTextEntry= {true} />
+        <View style={styles.space(83)} />
+        <Button title="Simpan" onPress={sendData} />
+      </ScrollView>
     </SafeAreaView>
   );
 };
