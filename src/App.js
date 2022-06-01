@@ -12,6 +12,8 @@ import {
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Router from './router';
+import { Provider } from 'react-redux';
+import {store} from './redux';
 
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -20,7 +22,9 @@ const App: () => Node = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
   return (
-    <Router />
+    <Provider store={store}>
+      <Router />
+    </Provider>
     // <SafeAreaView style={backgroundStyle}>
     //   <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
     //   <ScrollView

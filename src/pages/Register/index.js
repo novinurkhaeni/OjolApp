@@ -4,57 +4,61 @@ import {StyleSheet, Text, View, SafeAreaView, ScrollView, Image, TouchableOpacit
 import {colors} from '../../utils';
 import {Input, Button} from '../../components';
 import {IconBack, RegisterImage} from '../../assets';
+import {useSelector, useDispatch} from 'react-redux';
+import {setForm} from '../../redux';
 
 const Register = ({navigation}) => {
-  const [form, setForm] = useState({
-    fullName: '',
-    email: '',
-    password: '',
-  });
+  const {form} = useSelector(state => state.RegisterReducer);
+  const dispatch = useDispatch();
+  // const [form, setForm] = useState({
+  //   fullName: '',
+  //   email: '',
+  //   password: '',
+  // });
 
-  useEffect(() => {
-    console.log('Hello');
-  }, []);
+  // useEffect(() => {
+  //   console.log(form);
+  // }, []);
 
-  const onInputChange = (value, input) => {
-    setForm({
-      ...form,
-      [input]: value,
-    });
+  const onInputChange = (inputType, value) => {
+    // setForm({
+    //   ...form,
+    //   [input]: value,
+    // });
+
+    dispatch(setForm(inputType, value))
   };
 
   const sendData = () => {
-    console.log('send', form);
+    console.log('SEND DATA =>', form);
   };
 
   return (
     <SafeAreaView style={styles.wrapper.page}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image source={IconBack} style={styles.iconBack} />
-        </TouchableOpacity>
+        <Button onPress={() => navigation.goBack()} type="icon" nameIcon="back" />
         <RegisterImage width={106} height={115} style={styles.illustration}/>
         <Text style={styles.text.desc}>
-          Mohon mengisis beberapa data untuk proses daftar anda
+          Mohon mengisisi beberapa data untuk proses daftar anda
         </Text>
         <View style={styles.space(64)} />
         <Input 
           placeholder="Nama Lengkap" 
           value={form.fullName} 
           onChangeText={value => {
-            onInputChange(value, 'fullName')
+            onInputChange('fullName', value)
           }}
         />
         <View style={styles.space(33)} />
         <Input 
           placeholder="Email" 
           value={form.email} 
-          onChangeText={value => onInputChange(value, 'email')} />
+          onChangeText={value => onInputChange('email', value)} />
         <View style={styles.space(33)} />
         <Input 
           placeholder="Password" 
           value={form.password} 
-          onChangeText={value => onInputChange(value, 'password')} 
+          onChangeText={value => onInputChange('password', value)} 
           secureTextEntry= {true} />
         <View style={styles.space(83)} />
         <Button title="Simpan" onPress={sendData} />
